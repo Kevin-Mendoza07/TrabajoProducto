@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Domain.enums
 {
-    public enum unit_of_measurements
+    public enum UnitMeasure
     {
         Litros,
-        Mililiitros, 
+        Mililitros, 
         Libras, 
         Gramos,  
         Kilogramos

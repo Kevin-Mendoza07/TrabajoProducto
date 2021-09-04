@@ -9,14 +9,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Nest;
+using Newtonsoft.Json;
+using Infraestructure;
+using Domain.enums;
 
 namespace TrabajoProducto
 {
     public partial class Form1 : Form
     {
+        private ProductModel productModel;
         public Form1()
         {
             InitializeComponent();
+            rtxImprimir.ReadOnly = true;
+            productModel = new ProductModel();
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
@@ -38,8 +44,24 @@ namespace TrabajoProducto
                 name = txtNombre.Text;
                 description = txtDescripcion.Text;
 
-                quantity = Convert.ToInt32(txtCantidad.Text);
-                caducityDate = Convert.ToDateTime(txtCaducidad.Text);
+                if (!int.TryParse(txtCantidad.Text, out quantity))
+                {
+
+                    MessageBox.Show($"Error, la cantidad: {txtCantidad.Text} no tiene el formato correcto",
+                        "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    return;
+
+                }
+                if (!DateTime.TryParse(txtCaducidad.Text, out caducityDate))
+                {
+
+                    MessageBox.Show($"Error, la fecha: {txtCaducidad.Text} no tiene el formato correcto",
+                        "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    return;
+
+                }
                 ValidarCampos(id, name, description, txtCantidad.Text, txtPrecio.Text, txtCaducidad.Text);
 
                 if (!decimal.TryParse(txtPrecio.Text, out price))
@@ -52,6 +74,24 @@ namespace TrabajoProducto
 
                 }
 
+                Product product = new Product()
+                {
+                    Id = id,
+                    Name = name,
+                    Description = description,
+                    Quantity = quantity,
+                    Price = price,
+                    CaducityDate = caducityDate,
+                    UnitMeasure = (UnitMeasure)cmbUnidades.SelectedIndex
+                };
+
+                productModel.Add(product);
+
+                string jsonObject = JsonConvert.SerializeObject(product);
+
+                rtxImprimir.Text = $"Producto agregado:" +
+                    $"  " +
+                    jsonObject;
 
             }
             catch (Exception ex)
@@ -60,18 +100,6 @@ namespace TrabajoProducto
             }
 
         }
-
-            Product product = new Product()
-            {
-              // Id = id,
-            //    Name = name, 
-            //    Description=description,
-            //    Quantity= quantity,
-            //    Price= price,
-            //    CaducityDate= caducityDate
-            };
-
-
 
             private void limpiar() {
 

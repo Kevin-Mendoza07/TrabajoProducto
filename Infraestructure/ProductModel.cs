@@ -37,58 +37,100 @@ namespace Infraestructure
         {
             return products;
         }
-        //public bool Update(Product p)
+
+        //public Product[] GetProductsByCaducidad(DateTime dt)
         //{
-        //    bool success = false;
-        //    int index = GetIndex(p);
-        //    if(index < 0)
+        //    if(products == null)
         //    {
-        //        throw new ArgumentException($"Error, producto con codigo {p.Codigo} no existe");
-        //    }
+        //        throw new ArgumentException("Error, la caducidad no puede ser null");
 
-        //    products[index] = p;
-        //    return !success;
-        //}
-        //public int GetIndex(Product p)
-        //{
-        //    return;
-        //}
-
-
-        //public bool Delete(Product p)
-        //{
-        //    bool flag = false;
-        //    int index = GetIndex(p);
-        //    if (index < 0)
+        //    } else if(products.Length == 1)
         //    {
-        //        throw new ArgumentException("");
+        //        return products;
         //    }
+            
         //}
 
+        //public Product[] GetProductsByRangoPrecio(decimal p1, decimal p2)
+        //{
 
-        public class ProductPriceComparer : IComparer<Product>
+        //}
+
+        public Product[] OrdenarByPrecio()
         {
-            public int Compare(Product p1, Product p2)
+            if(products == null)
             {
-                
-                if(p1 == null || p2 == null)
-                {
-                    throw new ArgumentException("Error, los valores no pueden ser null");
+                throw new ArgumentException("Error, el producto es null");
 
-                } else if(p1.Price > p2.Price)
-                {
-                    return 1;
-
-                } else if(p1.Price < p2.Price)
-                {
-                    return -1;
-
-                } else
-                {
-                    return 0;
-                }
+            }else if (products.Length == 1)
+            {
+                return products;
             }
+            Array.Sort(products, new Product.ProductPriceComparer());
+            return products;
         }
+
+        public Product FindById(int id)
+        {
+            int index = -1, i=0;
+            foreach (Product product in products)
+            {
+                if(products[i].Id == id)
+                {
+                    index = i;
+                    break;
+                }
+                i++;
+            }
+            return index < 0 ? null : products[index];
+        }
+
+        public bool Update(Product p)
+        {
+            bool success = false;
+            int index = GetIndex(p);
+            if (index < 0)
+            {
+                throw new ArgumentException($"Error, producto con codigo {p.Id} no existe");
+            }
+
+            products[index] = p;
+            return !success;
+        }
+        public int GetIndex(Product p)
+        {
+            int index = -1, i = 0;
+            foreach(Product product in products)
+            {
+                if(product.Id == p.Id)
+                {
+                    index = i;
+                    break;
+                }
+                i++;
+            }
+            return index;
+        }
+
+
+        public bool Delete(Product p)
+        {
+            bool flag = false;
+            int index = GetIndex(p);
+            if (index < 0)
+            {
+                throw new ArgumentException("Error, el producto no existe en el inventario");
+            }
+            Product[] tmp = new Product[products.Length - 1];
+            products[index] = products[products.Length - 1];
+            Array.Copy(products, tmp, products.Length - 1);
+            products = tmp;
+
+            return !flag;
+        }
+
+
+
 
 
         //public void Delete(Product product)

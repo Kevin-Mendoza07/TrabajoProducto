@@ -41,16 +41,17 @@
             this.txtPrecio = new System.Windows.Forms.TextBox();
             this.txtCaducidad = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cmbUnidades = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.txtCodigo = new System.Windows.Forms.TextBox();
+            this.cmbUnidades = new System.Windows.Forms.ComboBox();
             this.lblCodigo = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnActualizar = new System.Windows.Forms.Button();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.cmbBusqueda = new System.Windows.Forms.ComboBox();
+            this.txtBusqueda = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -176,6 +177,13 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ingrese los datos";
             // 
+            // txtCodigo
+            // 
+            this.txtCodigo.Location = new System.Drawing.Point(155, 27);
+            this.txtCodigo.Name = "txtCodigo";
+            this.txtCodigo.Size = new System.Drawing.Size(222, 20);
+            this.txtCodigo.TabIndex = 15;
+            // 
             // cmbUnidades
             // 
             this.cmbUnidades.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -191,6 +199,15 @@
             this.cmbUnidades.Size = new System.Drawing.Size(222, 21);
             this.cmbUnidades.TabIndex = 12;
             // 
+            // lblCodigo
+            // 
+            this.lblCodigo.AutoSize = true;
+            this.lblCodigo.Location = new System.Drawing.Point(102, 30);
+            this.lblCodigo.Name = "lblCodigo";
+            this.lblCodigo.Size = new System.Drawing.Size(19, 13);
+            this.lblCodigo.TabIndex = 16;
+            this.lblCodigo.Text = "Id:";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -201,30 +218,15 @@
             this.label1.TabIndex = 14;
             this.label1.Text = "Producto";
             // 
-            // txtCodigo
-            // 
-            this.txtCodigo.Location = new System.Drawing.Point(155, 27);
-            this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.Size = new System.Drawing.Size(222, 20);
-            this.txtCodigo.TabIndex = 15;
-            // 
-            // lblCodigo
-            // 
-            this.lblCodigo.AutoSize = true;
-            this.lblCodigo.Location = new System.Drawing.Point(102, 30);
-            this.lblCodigo.Name = "lblCodigo";
-            this.lblCodigo.Size = new System.Drawing.Size(19, 13);
-            this.lblCodigo.TabIndex = 16;
-            this.lblCodigo.Text = "Id:";
-            // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(454, 12);
+            this.btnBuscar.Location = new System.Drawing.Point(427, 13);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 23);
             this.btnBuscar.TabIndex = 17;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // groupBox2
             // 
@@ -246,6 +248,7 @@
             this.btnEliminar.TabIndex = 2;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnActualizar
             // 
@@ -255,6 +258,7 @@
             this.btnActualizar.TabIndex = 1;
             this.btnActualizar.Text = "Actualizar";
             this.btnActualizar.UseVisualStyleBackColor = true;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
             // btnAgregar
             // 
@@ -270,16 +274,29 @@
             // 
             this.cmbBusqueda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBusqueda.FormattingEnabled = true;
-            this.cmbBusqueda.Location = new System.Drawing.Point(265, 14);
+            this.cmbBusqueda.Items.AddRange(new object[] {
+            "ID",
+            "RangoDePrecio",
+            "Caducidad",
+            "UnidadMedida"});
+            this.cmbBusqueda.Location = new System.Drawing.Point(46, 15);
             this.cmbBusqueda.Name = "cmbBusqueda";
             this.cmbBusqueda.Size = new System.Drawing.Size(164, 21);
             this.cmbBusqueda.TabIndex = 19;
+            // 
+            // txtBusqueda
+            // 
+            this.txtBusqueda.Location = new System.Drawing.Point(232, 14);
+            this.txtBusqueda.Name = "txtBusqueda";
+            this.txtBusqueda.Size = new System.Drawing.Size(153, 20);
+            this.txtBusqueda.TabIndex = 20;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(824, 430);
+            this.Controls.Add(this.txtBusqueda);
             this.Controls.Add(this.cmbBusqueda);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnBuscar);
@@ -321,6 +338,7 @@
         private System.Windows.Forms.Button btnActualizar;
         private System.Windows.Forms.Button btnAgregar;
         private System.Windows.Forms.ComboBox cmbBusqueda;
+        private System.Windows.Forms.TextBox txtBusqueda;
     }
 }
 

@@ -32,15 +32,15 @@ namespace TrabajoProducto
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            string id;
-            string name;
-            string description;
+            int id;
+            string name, description;
             int quantity;
             decimal price;
             DateTime caducityDate;
 
             try {
-                id = txtCodigo.Text;
+                
+                
                 name = txtNombre.Text;
                 description = txtDescripcion.Text;
 
@@ -62,7 +62,12 @@ namespace TrabajoProducto
                     return;
 
                 }
-                ValidarCampos(id, name, description, txtCantidad.Text, txtPrecio.Text, txtCaducidad.Text);
+                ValidarCampos(txtCodigo.Text, name, description, txtCantidad.Text, txtPrecio.Text, txtCaducidad.Text);
+                if (!int.TryParse(txtCodigo.Text, out id))
+                {
+                    MessageBox.Show($"Error, el código de identificación: {txtCodigo.Text} no tiene el formato correcto",
+                        "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
 
                 if (!decimal.TryParse(txtPrecio.Text, out price))
                 {
@@ -92,7 +97,7 @@ namespace TrabajoProducto
                 rtxImprimir.Text = $"Producto agregado:" +
                     $"  " +
                     jsonObject;
-
+                limpiar();
             }
             catch (Exception ex)
             {
@@ -129,6 +134,161 @@ namespace TrabajoProducto
 
                 }
             }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            string name, description;
+            int quantity, id;
+            decimal price;
+            DateTime caducityDate;
+
+            try
+            {
+                if(!int.TryParse(txtCodigo.Text, out id))
+                {
+                    MessageBox.Show($"Error, el código de identificación: {txtCodigo.Text} no tiene el formato correcto",
+                        "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                name = txtNombre.Text;
+                description = txtDescripcion.Text;
+
+                if (!int.TryParse(txtCantidad.Text, out quantity))
+                {
+
+                    MessageBox.Show($"Error, la cantidad: {txtCantidad.Text} no tiene el formato correcto",
+                        "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    return;
+
+                }
+                if (!DateTime.TryParse(txtCaducidad.Text, out caducityDate))
+                {
+
+                    MessageBox.Show($"Error, la fecha: {txtCaducidad.Text} no tiene el formato correcto",
+                        "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    return;
+
+                }
+                ValidarCampos(txtCodigo.Text, name, description, txtCantidad.Text, txtPrecio.Text, txtCaducidad.Text);
+
+                if (!decimal.TryParse(txtPrecio.Text, out price))
+                {
+
+                    MessageBox.Show($"Error, el precio: {txtPrecio.Text} no tiene el formato correcto",
+                        "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    return;
+
+                }
+
+                Product product = new Product()
+                {
+                    Id = id,
+                    Name = name,
+                    Description = description,
+                    Quantity = quantity,
+                    Price = price,
+                    CaducityDate = caducityDate,
+                    UnitMeasure = (UnitMeasure)cmbUnidades.SelectedIndex
+                };
+
+                productModel.Update(product);
+
+                string jsonObject = JsonConvert.SerializeObject(product);
+
+                rtxImprimir.Text = $"Producto actualizado:" +
+                    $"  " +
+                    jsonObject;
+                limpiar();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
         }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            string name, description;
+            int id;
+            //int quantity;
+            //decimal price;
+            //DateTime caducityDate;
+
+            try
+            {
+                if(!int.TryParse(txtCodigo.Text, out id))
+                {
+                    MessageBox.Show($"Error, el código de identificación: {txtCodigo.Text} no tiene el formato correcto",
+                        "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                //name = txtNombre.Text;
+                //description = txtDescripcion.Text;
+
+                //if (!int.TryParse(txtCantidad.Text, out quantity))
+                //{
+
+                //    MessageBox.Show($"Error, la cantidad: {txtCantidad.Text} no tiene el formato correcto",
+                //        "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //    return;
+
+                //}
+                //if (!DateTime.TryParse(txtCaducidad.Text, out caducityDate))
+                //{
+
+                //    MessageBox.Show($"Error, la fecha: {txtCaducidad.Text} no tiene el formato correcto",
+                //        "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //    return;
+
+                //}
+                //ValidarCampos(id, name, description, txtCantidad.Text, txtPrecio.Text, txtCaducidad.Text);
+
+                //if (!decimal.TryParse(txtPrecio.Text, out price))
+                //{
+
+                //    MessageBox.Show($"Error, el precio: {txtPrecio.Text} no tiene el formato correcto",
+                //        "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                //    return;
+
+                //}
+
+                Product product = new Product()
+                {
+                    Id = id
+                    //Name = name,
+                    //Description = description,
+                    //Quantity = quantity,
+                    //Price = price,
+                    //CaducityDate = caducityDate,
+                    //UnitMeasure = (UnitMeasure)cmbUnidades.SelectedIndex
+                };
+
+                productModel.Delete(product);
+
+                string jsonObject = JsonConvert.SerializeObject(product);
+
+                rtxImprimir.Text = $"Producto eliminado satisfacoriamente.";
+                    
+                limpiar();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
     }
 

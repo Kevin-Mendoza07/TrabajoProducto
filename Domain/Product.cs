@@ -17,7 +17,7 @@ namespace Domain
         DateTime caducityDate; 
 
         [JsonProperty]
-        public string Id { get; set; }
+        public int Id { get; set; }
         [JsonProperty]
         public string Name { get; set; }
         [JsonProperty]
@@ -31,6 +31,34 @@ namespace Domain
         [JsonProperty]
         public UnitMeasure UnitMeasure { get; set; }
         public Search Search { get; set; }
+
+        public class ProductPriceComparer : IComparer<Product>
+        {
+            public int Compare(Product p1, Product p2)
+            {
+
+                if (p1 == null || p2 == null)
+                {
+                    throw new ArgumentException("Error, los valores no pueden ser null");
+
+                }
+                else if (p1.Price > p2.Price)
+                {
+                    return 1;
+
+                }
+                else if (p1.Price < p2.Price)
+                {
+                    return -1;
+
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
 
 
 

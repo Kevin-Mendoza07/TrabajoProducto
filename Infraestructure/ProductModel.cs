@@ -37,32 +37,49 @@ namespace Infraestructure
         {
             return products;
         }
-        //public bool Update(Product p)
-        //{
-        //    bool success = false;
-        //    int index = GetIndex(p);
-        //    if(index < 0)
-        //    {
-        //        throw new ArgumentException($"Error, producto con codigo {p.Codigo} no existe");
-        //    }
+        public bool Update(Product p)
+        {
+         bool success = false;
+           int index = GetIndex(p);
+           if(index < 0)
+          {
+              throw new ArgumentException($"Error, producto con codigo {p.Id} no existe");
+           }
 
-        //    products[index] = p;
-        //    return !success;
-        //}
-        //public int GetIndex(Product p)
+           products[index] = p;
+           return !success;
+        }
+
+        public int GetIndex(Product p)
+        {
+            int index = -1, i = 0; 
+            foreach(Product product in products)
+            {
+                if (product.Id == p.Id)
+                {
+                    index = i;
+                    break; 
+                }
+                i++; 
+            }
+            return index; 
+       
+        }
+
+        //public bool FindById(Product p)
         //{
-        //    return;
+
         //}
 
 
         //public bool Delete(Product p)
         //{
-        //    bool flag = false;
+        //   bool flag = false;
         //    int index = GetIndex(p);
-        //    if (index < 0)
-        //    {
-        //        throw new ArgumentException("");
-        //    }
+        //   if (index < 0)
+        //  {
+        //       throw new ArgumentException("");
+        //   }
         //}
 
 

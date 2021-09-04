@@ -37,8 +37,7 @@ namespace Infraestructure
         {
             return products;
         }
-
-        //public Product[] GetProductsByCaducidad(DateTime dt)
+        //public bool Update(Product p)
         //{
         //    if(products == null)
         //    {

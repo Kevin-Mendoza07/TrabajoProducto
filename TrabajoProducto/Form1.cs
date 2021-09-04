@@ -91,6 +91,7 @@ namespace TrabajoProducto
                 };
 
                 productModel.Add(product);
+                productModel.Update(product); 
 
                 string jsonObject = JsonConvert.SerializeObject(product);
 

@@ -306,7 +306,8 @@ namespace TrabajoProducto
 
             try
             {
-
+                name = txtNombre.Text;
+                description = txtDescripcion.Text;
                 codigo = txtBusqueda.Text;
                 ValidarBusqueda(codigo);
 
@@ -320,18 +321,21 @@ namespace TrabajoProducto
                     MessageBox.Show($"Error, el código de identificación: {txtBusqueda.Text} no tiene el formato correcto",
                         "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                
 
                 Product product = new Product()
                 {
                     Id = id,
+                    Name = name,
+                    Description=description,
                     UnitMeasure = (UnitMeasure)cmbUnidades.SelectedIndex
                 };
 
                 productModel.FindById(id);
+                productModel.Add(product);
+                string jsonObject = JsonConvert.SerializeObject(product);
 
-                string jsonObject = JsonConvert.SerializeObject(id);
-
-                rtxImprimir.Text = $"El producto con codigo {product}:" +
+                rtxImprimir.Text = $"El producto con codigo {id}:" +
                     $"  " +
                     jsonObject;
                 limpiar();

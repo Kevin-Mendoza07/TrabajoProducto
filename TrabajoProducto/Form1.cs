@@ -78,6 +78,12 @@ namespace TrabajoProducto
                     return;
 
                 }
+                if (cmbUnidades.SelectedIndex.Equals(-1))
+                {
+                    MessageBox.Show("Llene todos los datos", "Mensaje de Error", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+           
 
                 Product product = new Product()
                 {
@@ -115,6 +121,7 @@ namespace TrabajoProducto
                 txtCantidad.Text = string.Empty;
                 txtPrecio.Text = string.Empty;
                 txtCaducidad.Text = string.Empty;
+                txtBusqueda.Text = string.Empty; 
                 txtCodigo.Focus();
 
             }
@@ -275,7 +282,7 @@ namespace TrabajoProducto
 
                 string jsonObject = JsonConvert.SerializeObject(product);
 
-                rtxImprimir.Text = $"Producto eliminado satisfacoriamente.";
+                rtxImprimir.Text = $"El Producto se ha eliminado con exito.";
                     
                 limpiar();
 
@@ -288,7 +295,62 @@ namespace TrabajoProducto
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
+            string codigo;
+            int id;
+            string name, description;
+            int quantity;
+            decimal price;
+            DateTime caducityDate;
 
+
+
+            try
+            {
+
+                codigo = txtBusqueda.Text;
+                ValidarBusqueda(codigo);
+
+                if (cmbBusqueda.SelectedIndex.Equals(-1))
+                {
+                    MessageBox.Show("Llene todos los datos", "Mensaje de Error", MessageBoxButtons.OK,
+                       MessageBoxIcon.Error);
+                }
+                if (!int.TryParse(txtBusqueda.Text, out id))
+                {
+                    MessageBox.Show($"Error, el código de identificación: {txtBusqueda.Text} no tiene el formato correcto",
+                        "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                Product product = new Product()
+                {
+                    Id = id,
+                    UnitMeasure = (UnitMeasure)cmbUnidades.SelectedIndex
+                };
+
+                productModel.FindById(id);
+
+                string jsonObject = JsonConvert.SerializeObject(id);
+
+                rtxImprimir.Text = $"El producto con codigo {product}:" +
+                    $"  " +
+                    jsonObject;
+                limpiar();
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Mensaje de error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            limpiar(); 
+            }
+        private void ValidarBusqueda(string codigo)
+        {
+            if (string.IsNullOrWhiteSpace(codigo))
+            {
+                throw new ArgumentException("Error, se requieren todos los campos"); 
+
+            }
         }
     }
     }
